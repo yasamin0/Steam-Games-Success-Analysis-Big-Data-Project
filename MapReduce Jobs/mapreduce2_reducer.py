@@ -13,21 +13,21 @@ def main():
         line = line.strip()
         try:
             # Parse the input line
-            genre, metrics = line.split("\t")
-            success_metric, average_playtime, ratings, sales = map(float, metrics.split(","))
+            genre, metrics = line.split("\t") #Splits the line into:genre and metrices
+            success_metric, average_playtime, ratings, sales = map(float, metrics.split(",")) #Converts all metrics to floating-point numbers.
         except ValueError:
             # Skip lines with invalid format
             continue
 
-        if current_genre == genre:
-            # Accumulate metrics for the same genre
+        if current_genre == genre: 
+            # Adds success_metric, average_playtime, ratings, and sales to their respective totals.
             total_success_metric += success_metric
             total_playtime += average_playtime
             total_ratings += ratings
             total_sales += sales
             count += 1
         else:
-            if current_genre is not None:
+            if current_genre is not None: #When a new genre appears
                 # Output results for the previous genre
                 avg_success_metric = total_success_metric / count if count > 0 else 0
                 avg_playtime = total_playtime / count if count > 0 else 0

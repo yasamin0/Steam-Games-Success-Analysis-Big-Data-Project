@@ -2,7 +2,7 @@
 import sys
 from math import sqrt
 
-def calculate_correlation(n, sum_x, sum_y, sum_xy, sum_x2, sum_y2):
+def calculate_correlation(n, sum_x, sum_y, sum_xy, sum_x2, sum_y2): #Computes Pearson correlation coefficient 
     numerator = n * sum_xy - sum_x * sum_y
     denominator = sqrt((n * sum_x2 - sum_x**2) * (n * sum_y2 - sum_y**2))
     return numerator / denominator if denominator != 0 else 0
@@ -10,8 +10,8 @@ def calculate_correlation(n, sum_x, sum_y, sum_xy, sum_x2, sum_y2):
 def main():
     n = 0
     sum_pos = sum_neg = sum_sent = sum_succ = 0
-    sum_pos_sq = sum_neg_sq = sum_sent_sq = sum_succ_sq = 0
-    sum_pos_succ = sum_neg_succ = sum_sent_succ = 0
+    sum_pos_sq = sum_neg_sq = sum_sent_sq = sum_succ_sq = 0 # Sum of squared values (needed for correlation).
+    sum_pos_succ = sum_neg_succ = sum_sent_succ = 0 #Sum of products
 
     for line in sys.stdin:
         line = line.strip()
@@ -37,7 +37,7 @@ def main():
         sum_neg_succ += negative_ratings * success_metric
         sum_sent_succ += sentiment_score * success_metric
 
-    # Calculate correlations
+    # Calculate correlations . Calls calculate_correlation() to compute Pearson correlation coefficients
     corr_pos_succ = calculate_correlation(n, sum_pos, sum_succ, sum_pos_succ, sum_pos_sq, sum_succ_sq)
     corr_neg_succ = calculate_correlation(n, sum_neg, sum_succ, sum_neg_succ, sum_neg_sq, sum_succ_sq)
     corr_sent_succ = calculate_correlation(n, sum_sent, sum_succ, sum_sent_succ, sum_sent_sq, sum_succ_sq)
