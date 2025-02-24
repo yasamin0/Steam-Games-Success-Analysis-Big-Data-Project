@@ -2,7 +2,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, when
 from pyspark.ml.feature import VectorAssembler, StringIndexer
 from pyspark.ml.classification import LogisticRegression, RandomForestClassifier, GBTClassifier
-from pyspark.ml.evaluation import MulticlassClassificationEvaluator, BinaryClassificationEvaluator
+from pyspark.ml.evaluation import MulticlassClassificationEvaluator, BinaryClassificationEvaluator # Evaluates model performance.
 
 # Initialize Spark Session
 spark = SparkSession.builder.appName("Game_Pricing_Classification").getOrCreate()
@@ -18,7 +18,7 @@ df = spark.read.csv(input_path, header=True, inferSchema=True)
 df = df.withColumn("is_free", when(col("price") == 0, 1).otherwise(0))  # 1 for Free, 0 for Paid
 
 # Handle Null Values: Replace missing values with defaults for numeric columns
-df = df.fillna({"average_playtime": 0, "positive_ratings": 0, "negative_ratings": 0, "sentiment_score": 0})
+df = df.fillna({"average_playtime": 0, "positive_ratings": 0, "negative_ratings": 0, "sentiment_score": 0}) #Replaces NaN (missing values) with 0 for selected numeric columns.
 
 # Encode Genres as Numeric: Use StringIndexer to handle categorical genres
 indexer = StringIndexer(inputCol="genres", outputCol="genre_index", handleInvalid="skip")
@@ -31,7 +31,7 @@ df = assembler.transform(df)
 
 # Split Dataset: Train-Test split with 80%-20% ratio
 train_df, test_df = df.randomSplit([0.8, 0.2], seed=42)
-train_df.cache()
+train_df.cache() #cache() stores data in memory for faster access.
 test_df.cache()
 
 # Train Models
@@ -43,11 +43,11 @@ lr_model = lr.fit(train_df)
 rf = RandomForestClassifier(featuresCol="features", labelCol="is_free", numTrees=10, maxBins=1554)
 rf_model = rf.fit(train_df)
 
-# Gradient Boosting with adjusted maxBins for high cardinality
-gbt = GBTClassifier(featuresCol="features", labelCol="is_free", maxIter=10, maxBins=1554)
+# Gradient Boosting with adjusted maxBins for high cardinality 
+gbt = GBTClassifier(featuresCol="features", labelCol="is_free", maxIter=10, maxBins=1554) #maxIter=10 → Runs for 10 iterations.
 gbt_model = gbt.fit(train_df)
 
-# Predictions: Apply each model to the test dataset
+# Predictions: Apply each model to the test dataset to generate predictions.
 lr_preds = lr_model.transform(test_df)
 rf_preds = rf_model.transform(test_df)
 gbt_preds = gbt_model.transform(test_df)

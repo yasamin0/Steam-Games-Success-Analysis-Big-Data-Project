@@ -1,12 +1,12 @@
-import json
-
+import json   
+#This script reads the output files from three different MapReduce jobs and converts them into structured JSON files for further processing
 # Open the MapReduce output file
-with open("mapreduce_output.txt", "r") as file:
+with open("mapreduce1_output.txt", "r") as file:
     data = []
 
     for line in file:
         try:
-            # Strip whitespace and split the line
+            # Strip whitespace and split the line into key-value pairs
             key, value = line.strip().split("\t")
             value = float(value)  # Convert the value to a float
             
@@ -19,8 +19,8 @@ with open("mapreduce_output.txt", "r") as file:
             print(f"Skipping malformed line: {line.strip()}")
 
 # Write the JSON output to a file
-with open("mapreduce_output.json", "w") as json_file:
-    json.dump(data, json_file, indent=4)
+with open("mapreduce1_output.json", "w") as json_file:
+    json.dump(data, json_file, indent=4)  #indent=4 → Formats the JSON output with 4 spaces per level for readability.The json.dump() function in Python is used to write JSON data to a file.
 
 print("JSON file for MapReduce1 successfully created.")
 
