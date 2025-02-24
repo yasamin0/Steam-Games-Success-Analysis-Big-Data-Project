@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-import sys
-import csv
+import sys #Allows reading input from standard input (stdin)
+import csv #Enables parsing CSV files
 
 def main():
     reader = csv.reader(sys.stdin)
@@ -11,7 +11,7 @@ def main():
 
     # Dynamically find the indices for 'price_tier' and 'success_metric'
     try:
-        price_tier_idx = header.index("price_tier")  # Replace with the exact column name in your CSV
+        price_tier_idx = header.index("price_tier")  # Replace with the exact column name in CSV
         success_metric_idx = header.index("success_metric")  # Replace with the exact column name
     except ValueError:
         print("Error: Required columns not found in the header.", file=sys.stderr)
@@ -20,14 +20,14 @@ def main():
     # Process the data rows
     for row in reader:
         try:
-            price_tier = row[price_tier_idx].strip()
+            price_tier = row[price_tier_idx].strip() #Extracts the price_tier value and removes extra spaces.
             success_metric = float(row[success_metric_idx])
 
             # Skip rows where price_tier is empty, invalid, or explicitly '0'
             if not price_tier or price_tier == '0':
                 continue
 
-            print(f"{price_tier}\t{success_metric}")
+            print(f"{price_tier}\t{success_metric}") #Outputs data in tab-separated format (price_tier -> success_metric).
         except (ValueError, IndexError):
             continue  # Skip invalid rows
 

@@ -2,11 +2,11 @@
 import sys
 
 def main():
-    current_genre = None
-    total_success_metric = 0.0
-    total_playtime = 0.0
-    total_ratings = 0.0
-    total_sales = 0.0
+    current_genre = None # Tracks the current genre being processed.
+    total_success_metric = 0.0 #Stores the cumulative success metric for a genre
+    total_playtime = 0.0 #Stores the cumulative playtime for a genre.
+    total_ratings = 0.0 #Stores the cumulative positive ratings for a genre.
+    total_sales = 0.0 #Stores the cumulative sales (price values) for a genre.
     count = 0
 
     for line in sys.stdin:
