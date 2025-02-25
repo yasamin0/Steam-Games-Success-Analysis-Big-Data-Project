@@ -24,7 +24,7 @@ df = assembler.transform(df).select(col("features"), col(target).alias("label"))
 
 # Train Linear Regression model
 lr = LinearRegression(featuresCol="features", labelCol="label")
-lr_model = lr.fit(df)
+lr_model = lr.fit(df) #trains the model by finding the best weights for predicting success_metric.
 
 # Extract feature coefficients (weights)
 coefficients = lr_model.coefficients.toArray()
